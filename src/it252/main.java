@@ -19,7 +19,8 @@ public class main
      */
     public static void main(String[] args)
     {
-       System.out.print(args);
+        RepFrame hello = new RepFrame();
+        hello.setVisible(true);
     }
     
 }
