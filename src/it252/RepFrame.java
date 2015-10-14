@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *Allows users to enter in sales reporting info from the GUI and passes the 
+ * information to a file and saves all entered info.
+ * There are three frames. The first one collects the reps info. 
+ * Frame two "Sales Info Frame" collects info on the sale.
+ * Frame "Display Text" shows the user what was enterd from frame 1 & 2.
  */
 package it252;
 import java.awt.*;
@@ -19,7 +21,8 @@ import java.util.logging.Logger;
 import javax.swing.table.JTableHeader;
 /**
  *
- * @author Truth
+ * @author Angelo Barcelo
+ * angelobarcelo@hotmail.com
  */
 public class RepFrame extends javax.swing.JFrame
 {
@@ -27,7 +30,11 @@ public class RepFrame extends javax.swing.JFrame
     /**
      * Creates new form NewJFrame
      */
+    
     String repId;
+    String repFirstName;
+    String repLastName;
+    
     public RepFrame()
     {
         initComponents();
@@ -212,14 +219,9 @@ public class RepFrame extends javax.swing.JFrame
  
     private void RepIdActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RepIdActionPerformed
     {//GEN-HEADEREND:event_RepIdActionPerformed
-     
-        repId= RepId.getText();       // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_RepIdActionPerformed
  
-    String getRepId()
-    {
-        return repId;
-    }
     private void RepLastNameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RepLastNameActionPerformed
     {//GEN-HEADEREND:event_RepLastNameActionPerformed
         // TODO add your handling code here:
@@ -227,9 +229,20 @@ public class RepFrame extends javax.swing.JFrame
 
     private void EnterButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EnterButtonActionPerformed
     {//GEN-HEADEREND:event_EnterButtonActionPerformed
+        //Gets the rep id that was entered
+        repId = RepId.getText();
+        
+        //Gets the reps first name that was entered
+        repFirstName = RepFirstName.getText();
+        
+        //Gets the reps last name that was entered
+        repLastName = RepLastName.getText();
+        
         setVisible(false);
-        salesInfoFrame hello2 = new salesInfoFrame();
-        hello2.setVisible(true);
+        
+        //Creats 2nd frame and passes variables entered to it
+        salesInfoFrame frame2 = new salesInfoFrame(repId, repFirstName,repLastName);
+        frame2.setVisible(true);
     }//GEN-LAST:event_EnterButtonActionPerformed
 
     private void RepIdMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_RepIdMouseClicked
@@ -239,13 +252,12 @@ public class RepFrame extends javax.swing.JFrame
 
     private void RepIdPropertyChange(java.beans.PropertyChangeEvent evt)//GEN-FIRST:event_RepIdPropertyChange
     {//GEN-HEADEREND:event_RepIdPropertyChange
-        repId = (String)RepId.getText();// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_RepIdPropertyChange
 
     private void RepIdFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_RepIdFocusLost
     {//GEN-HEADEREND:event_RepIdFocusLost
-        repId = RepId.getText();
-        System.out.println("Lost Focuse");// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_RepIdFocusLost
 
     /**
@@ -290,9 +302,7 @@ public class RepFrame extends javax.swing.JFrame
         {
             public void run()
             {
-                new RepFrame().setVisible(true);
-                
-                
+                new RepFrame().setVisible(true); 
             }
         });
     }
