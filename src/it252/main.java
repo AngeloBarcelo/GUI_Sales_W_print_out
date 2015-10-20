@@ -1,15 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *This program is a total sales record keeper. It takes the entered info and 
+ *writes a file with the entered info. It has two main frames: frame 1 "RepInfo"
+ *is all the reps info. Frame 2 "SalesInfo" is all the sales totals info. The 3rd 
+ *frame "DisplayText" is ment only to display information to the user...Might 
+ *delete it later. 
+ *
+ *If you see "Added for Ui experiance ++" == Means this feature or code was only 
+ *added to make the user experiance better. It is not part or functionality of 
+ *the program or requirments unless other wise stated.
  */
 package it252;
 
-import javax.swing.JOptionPane;
-
 /**
  *
- * @author Angelo Barcelo
+ * @author Angelo 
+ * angelobarcelo@hotmail.com
  */
 public class main
 {
@@ -19,7 +24,8 @@ public class main
      */
     public static void main(String[] args)
     {
-        RepFrame hello = new RepFrame();
+        RepInfo hello = new RepInfo();
+        
         hello.setVisible(true);
     }
     
