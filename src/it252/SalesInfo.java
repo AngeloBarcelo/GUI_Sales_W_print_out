@@ -16,6 +16,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -205,6 +207,13 @@ String contactMeth;
 
         EvaluateButton.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
         EvaluateButton.setText("Evaluate");
+        EvaluateButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                EvaluateButtonActionPerformed(evt);
+            }
+        });
 
         changeRepInfoButton.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
         changeRepInfoButton.setText("Change Rep Info");
@@ -284,6 +293,10 @@ String contactMeth;
         //Gets the text from paper sales text area and converts to double
         paperSales = Double.parseDouble(paper_Text.getText());
         
+        book_text.setText("book total sales");
+        supplies_Text.setText("Supplies total sales");
+        paper_Text.setText("Paper total sales");
+        
         //Creates formated string to send to file
         String textFile = repId + " " +repFirstName + " " + repLastName + 
                 " SUPPLIES " + supplieSales + " BOOKS " +bookSales + " PAPER " +
@@ -292,7 +305,7 @@ String contactMeth;
         try
         {
             //Creats the file in the users "main" path. Only works for windows users
-            File file = new File(System.getProperty("user.home")+"\\output.txt");
+            File file = new File(System.getProperty("user.home")+"\\SalesRep.txt");
             
             FileWriter writter = new FileWriter(file,true);
             
@@ -307,7 +320,7 @@ String contactMeth;
             //Added for Ui experiance ++ lets the use know save is done & no errors
             JOptionPane.showMessageDialog(null, "All done! Your file has been "
                     + "saved to " + System.getProperty
-                    ("user.home")+"\\output.txt");
+                    ("user.home")+"\\salesrep.txt");
         }
         catch(Exception e)
         {
@@ -353,8 +366,65 @@ String contactMeth;
     private void book_textFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_book_textFocusGained
     {//GEN-HEADEREND:event_book_textFocusGained
         //Added for Ui experiance ++ when user clicks in text area it clear all text
-        book_text.setText(" ");// TODO add your handling code here:
+        book_text.setText(null);// TODO add your handling code here:
     }//GEN-LAST:event_book_textFocusGained
+
+    private void EvaluateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EvaluateButtonActionPerformed
+    {//GEN-HEADEREND:event_EvaluateButtonActionPerformed
+        ArrayList<String> salesInfo = new ArrayList<>();
+        try 
+        {
+            Scanner scan = new Scanner(new File(System.getProperty("user.home")+"\\SalesRep.txt")); 
+            while (scan.hasNext())
+            {
+                repId = scan.next();
+                repFirstName = scan.next();
+                repLastName = scan.next();
+                String suppliesLabel = scan.next();
+                supplieSales = scan.nextDouble();
+                String bookLabel = scan.next();
+                bookSales = scan.nextDouble();
+                String paperLabel = scan.next();
+                paperSales = scan.nextDouble();
+                salesDist = scan.next();
+                contactMeth = scan.next();
+                totalSales = supplieSales+bookSales+paperSales;
+            
+                if (totalSales>=8000)
+                {
+                    try
+                    {
+                        String textFile2 = repId + " " +repFirstName + " " + repLastName + " "+
+                        suppliesLabel + " " + supplieSales + " " + bookLabel + " "+ bookSales + " " +paperLabel + " " +
+                        paperSales + " " + salesDist + " " +contactMeth;
+                        //Creats the file in the users "main" path. Only works for windows users
+                        File file2 = new File(System.getProperty("user.home")+"\\Stars.txt");
+            
+                        FileWriter writter = new FileWriter(file2,true);
+            
+                        BufferedWriter buffWrite = new BufferedWriter(writter);
+            
+                        PrintWriter pWriter = new PrintWriter(buffWrite);
+             
+                        pWriter.println(textFile2);
+            
+                        buffWrite.close();
+            
+                        //Added for Ui experiance ++ lets the use know save is done & no errors
+                        JOptionPane.showMessageDialog(null, "Found a new star and add them to the file @: " + System.getProperty
+                        ("user.home")+"\\stars.txt");
+                    }
+                    catch(Exception e)
+                    {
+                        JOptionPane.showMessageDialog(this, e);
+                    }
+                };
+            }
+        }
+        catch(Exception e)
+        {
+        }
+    }//GEN-LAST:event_EvaluateButtonActionPerformed
 
     /**
      * @param args the command line arguments
