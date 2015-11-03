@@ -26,16 +26,17 @@ import java.util.Scanner;
  */
 public class SalesInfo extends javax.swing.JFrame
 {
-
-String repId;
-String repFirstName;
-String repLastName;
-Double supplieSales;
-Double bookSales;
-Double paperSales;
-Double totalSales;
-String salesDist;
-String contactMeth;
+    String repId;
+    String repFirstName;
+    String repLastName;
+    Double supplieSales;
+    Double bookSales;
+    Double paperSales;
+    Double totalSales;
+    String salesDist;
+    String contactMeth;
+    ArrayList<SalesRepresentative> repSalesInfo = new ArrayList<>();
+    
     /**
      * Creates new form SalesInfo
      */
@@ -49,7 +50,6 @@ String contactMeth;
         
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to
      * initialize the form.
@@ -273,7 +273,63 @@ String contactMeth;
 
     private void displayButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_displayButtonActionPerformed
     {//GEN-HEADEREND:event_displayButtonActionPerformed
-        // TODO add your handling code here:
+        //Reads the file fron the stars file and adds text to arraylist
+        try 
+        {
+            Scanner scan = new Scanner(new File(System.getProperty("user.home")+"\\Stars.txt")); 
+            while (scan.hasNext())
+            {
+                
+                //Creates new salesrep object to add to arraylist for each line
+                SalesRepresentative allRepInfo = new SalesRepresentative (repId,  
+                    repFirstName,  repLastName, supplieSales,  bookSales,  
+                    paperSales, totalSales,  salesDist,  contactMeth); 
+      
+                allRepInfo.setRepId(scan.next());   
+                
+                allRepInfo.setRepFirstName(scan.next()); 
+                
+                allRepInfo.setRepLastName(scan.next());
+     
+                //Place holder for incoming text. Not added to arraylist
+                String suppliesLabel = scan.next();
+                
+                allRepInfo.setSuppliesSales(scan.nextDouble());
+                
+                //Place holder for incoming text. Not added to arraylist
+                String bookLabel = scan.next();
+                
+                allRepInfo.setBookSales(scan.nextDouble());
+                
+                //Place holder for incoming text. Not added to arraylist
+                String paperLabel = scan.next();
+                
+                allRepInfo.setPaperSales(scan.nextDouble());
+                
+                allRepInfo.setSalesDist(scan.next());
+                
+                allRepInfo.setContactMeth(scan.next());
+                
+                allRepInfo.setTotalSales(allRepInfo.getBookSales()+allRepInfo.getPaperSales()+allRepInfo.getSupplieSales()); 
+                
+                //Adds incoming info to arraylist object created
+                repSalesInfo.add(allRepInfo);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: "+e);
+        }
+        
+        //Calls the 3rd frame and passes it the arraylist
+        DisplayText text = new DisplayText(repSalesInfo);
+        
+        text.setEnabled(true);
+             
+        //Makes 3rd frame visibal
+        text.setVisible(true);
+        
+        
     }//GEN-LAST:event_displayButtonActionPerformed
 
     private void QuitButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_QuitButtonActionPerformed
@@ -284,17 +340,20 @@ String contactMeth;
 
     private void EnterButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EnterButtonActionPerformed
     {//GEN-HEADEREND:event_EnterButtonActionPerformed
-        //Gets the text from book sales text area and converts to double
+        //Gets input from text areas and converts to double
         bookSales = Double.parseDouble(book_text.getText());
         
-        //Gets the text from supplies sales text area and converts to double
+        
         supplieSales = Double.parseDouble(supplies_Text.getText());
         
-        //Gets the text from paper sales text area and converts to double
+        
         paperSales = Double.parseDouble(paper_Text.getText());
         
+        //Added for Ui experiance ++ Resets text fields for the user
         book_text.setText("book total sales");
+        
         supplies_Text.setText("Supplies total sales");
+        
         paper_Text.setText("Paper total sales");
         
         //Creates formated string to send to file
@@ -326,13 +385,6 @@ String contactMeth;
         {
             JOptionPane.showMessageDialog(this, e);
         }
-           
-        //Calls the 3rd frame and passes variables from frame 1&2
-        //DisplayText text = new DisplayText(repId, repFirstName, repLastName, supplieSales,  bookSales, 
-        //        paperSales,  salesDist,  contactMeth);
-
-        //Makes 3rd frame visibal
-        //text.setVisible(true);
     }//GEN-LAST:event_EnterButtonActionPerformed
 
     private void changeRepInfoButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_changeRepInfoButtonActionPerformed
@@ -366,39 +418,58 @@ String contactMeth;
     private void book_textFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_book_textFocusGained
     {//GEN-HEADEREND:event_book_textFocusGained
         //Added for Ui experiance ++ when user clicks in text area it clear all text
-        book_text.setText(null);// TODO add your handling code here:
+        book_text.setText(null);
     }//GEN-LAST:event_book_textFocusGained
 
     private void EvaluateButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_EvaluateButtonActionPerformed
     {//GEN-HEADEREND:event_EvaluateButtonActionPerformed
-        ArrayList<String> salesInfo = new ArrayList<>();
         try 
-        {
-            Scanner scan = new Scanner(new File(System.getProperty("user.home")+"\\SalesRep.txt")); 
+        {   //Reads the SalesRep file and sets the variables
+            Scanner scan = new Scanner(new File(System.getProperty("user.home")+
+                    "\\SalesRep.txt")); 
+            
             while (scan.hasNext())
             {
                 repId = scan.next();
+                
                 repFirstName = scan.next();
+                
                 repLastName = scan.next();
-                String suppliesLabel = scan.next();
+                
+                String suppliesLabel = scan.next();//Place holder 
+                
                 supplieSales = scan.nextDouble();
-                String bookLabel = scan.next();
+                
+                String bookLabel = scan.next();//Place holder 
+                
                 bookSales = scan.nextDouble();
-                String paperLabel = scan.next();
+                
+                String paperLabel = scan.next();//Place holder 
+                
                 paperSales = scan.nextDouble();
+                
                 salesDist = scan.next();
+                
                 contactMeth = scan.next();
+                
                 totalSales = supplieSales+bookSales+paperSales;
-            
+                
+                //If condition is true writes vailues to Stars file
                 if (totalSales>=8000)
                 {
+                    int counter=0;
                     try
                     {
-                        String textFile2 = repId + " " +repFirstName + " " + repLastName + " "+
-                        suppliesLabel + " " + supplieSales + " " + bookLabel + " "+ bookSales + " " +paperLabel + " " +
-                        paperSales + " " + salesDist + " " +contactMeth;
-                        //Creats the file in the users "main" path. Only works for windows users
-                        File file2 = new File(System.getProperty("user.home")+"\\Stars.txt");
+                        String textFile2 = repId + " " +repFirstName + " " + 
+                                repLastName + " "+ suppliesLabel + " " + 
+                                supplieSales + " " + bookLabel + " " + 
+                                bookSales + " " +paperLabel + " " + paperSales + 
+                                " " + salesDist + " " +contactMeth;
+                        
+                        //Creats the file in the users "main" path. 
+                        //Only works for windows users
+                        File file2 = new File(System.getProperty("user.home")+
+                                "\\Stars.txt");
             
                         FileWriter writter = new FileWriter(file2,true);
             
@@ -409,15 +480,20 @@ String contactMeth;
                         pWriter.println(textFile2);
             
                         buffWrite.close();
-            
-                        //Added for Ui experiance ++ lets the use know save is done & no errors
-                        JOptionPane.showMessageDialog(null, "Found a new star and add them to the file @: " + System.getProperty
-                        ("user.home")+"\\stars.txt");
+                        
+                        counter++;
                     }
                     catch(Exception e)
                     {
                         JOptionPane.showMessageDialog(this, e);
                     }
+                    
+                    //Added for Ui experiance ++ 
+                    //lets the use know save is done & no errors
+                    JOptionPane.showMessageDialog(null, 
+                            "Found "+ counter +" new stars and add them to the "
+                            + "file @: " + System.getProperty ("user.home")+
+                            "\\stars.txt");
                 };
             }
         }

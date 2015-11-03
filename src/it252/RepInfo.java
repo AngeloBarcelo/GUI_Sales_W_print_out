@@ -22,7 +22,7 @@ public class RepInfo extends javax.swing.JFrame
     String rep_Id;
     String rep_LastName;
     String salesDist;
-    int value;
+    
     /**
      * Creates new form RepInfo
      */

@@ -7,46 +7,48 @@
  */
 package it252;
 
+import java.util.ArrayList;
 /**
  * @author Angelo Barcelo
  * angelobarcelo@hotmail.com
  */
 public class DisplayText extends javax.swing.JFrame
 {
-
-String repId; 
-String repFirstName;
-String repLastName;
-String SupplyTab;
-Double supplieSales; 
-Double bookSales; 
-Double paperSales; 
-String salesDist; 
-String contactMeth;
+    String repId;
+    String repFirstName;
+    String repLastName;
+    Double supplieSales;
+    Double bookSales;
+    Double paperSales;
+    Double totalSales;
+    String salesDist;
+    String contactMeth;
+    ArrayList<String> repArray = new ArrayList<>();
+    
     /**
      * Creates new form DisplayText
      */
 
     //Passes variables from 2nd frame into this frame 
-    public DisplayText(String repId, String repFirstName, String repLastName, Double supplieSales,  Double bookSales, 
-                Double paperSales,  String salesDist,  String contactMeth)
+    SalesRepresentative SalesArray = new SalesRepresentative( repId,  
+            repFirstName,  repLastName, supplieSales,  bookSales,  paperSales,
+            totalSales,  salesDist, contactMeth);
+    /**
+     * Creates new form DisplayText
+     * @param repArray
+     */
+      public DisplayText(ArrayList repArray)
     {
-        this.repId= repId;
-        this.repFirstName = repFirstName;
-        this.repLastName = repLastName;
-        this.SupplyTab = SupplyTab;
-        this.supplieSales = supplieSales; 
-        this.bookSales = bookSales; 
-        this.paperSales = paperSales; 
-        this.salesDist = salesDist;
-        this.contactMeth = contactMeth;
-        
         initComponents();
         
-        //Sets the text area to variables entered in frame 1 & 2
-        Display.setText(repId+" "+ repFirstName+ " "+ repLastName+" SUPPLIES "+supplieSales +
-                " BOOKS " + bookSales + " PAPER " + paperSales + " " + salesDist +
-                " " + contactMeth);
+        //Sets text to a display arraylist size
+        jTextArea1.setText("Total sales representatives: " +
+                String.valueOf(repArray.size())+"\n\n");
+        
+        //Appends text area to display arraylist
+        jTextArea1.append(repArray.toString());
+    
+        this.repArray = repArray;   
     }
 
     /**
@@ -60,42 +62,43 @@ String contactMeth;
     private void initComponents()
     {
 
-        Display = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        Display.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                DisplayActionPerformed(evt);
-            }
-        });
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel1.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Representatives currently in the stars files");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(Display, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(Display, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void DisplayActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_DisplayActionPerformed
-    {//GEN-HEADEREND:event_DisplayActionPerformed
-
-    }//GEN-LAST:event_DisplayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,6 +146,8 @@ String contactMeth;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JTextField Display;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
